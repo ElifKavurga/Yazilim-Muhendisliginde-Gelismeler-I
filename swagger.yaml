@@ -1,0 +1,323 @@
+openapi: 3.0.3
+info:
+  title: DersYoldaşı API
+  version: 0.2.0
+paths:
+  /:
+    get:
+      summary: Root
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /register:
+    post:
+      summary: Register
+      operationId: register_register_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /login:
+    post:
+      summary: Login
+      operationId: login_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /courses:
+    get:
+      summary: Get Courses
+      operationId: get_courses_courses_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+                title: Response Get Courses Courses Get
+    post:
+      summary: Create Course
+      operationId: create_course_courses_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /courses/{course_id}:
+    delete:
+      summary: Delete Course
+      operationId: delete_course_courses__course_id__delete
+      parameters:
+        - name: course_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Course Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /goals:
+    get:
+      summary: Get Goals
+      operationId: get_goals_goals_get
+      parameters:
+        - name: course_id
+          in: query
+          required: false
+          schema:
+            type: string
+            nullable: true
+            title: Course Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Goal'
+                title: Response Get Goals Goals Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Create Goal
+      operationId: create_goal_goals_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /goals/{goal_id}:
+    delete:
+      summary: Delete Goal
+      operationId: delete_goal_goals__goal_id__delete
+      parameters:
+        - name: goal_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Goal Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Course:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          nullable: true
+          title: Description
+        id:
+          type: string
+          title: Id
+        user_id:
+          type: string
+          title: User Id
+      type: object
+      required:
+        - name
+        - id
+        - user_id
+      title: Course
+    CourseCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          nullable: true
+          title: Description
+      type: object
+      required:
+        - name
+      title: CourseCreate
+    Goal:
+      properties:
+        course_id:
+          type: string
+          title: Course Id
+        title:
+          type: string
+          title: Title
+        target_hours:
+          type: number
+          title: Target Hours
+        id:
+          type: string
+          title: Id
+        is_completed:
+          type: boolean
+          title: Is Completed
+          default: false
+      type: object
+      required:
+        - course_id
+        - title
+        - target_hours
+        - id
+      title: Goal
+    GoalCreate:
+      properties:
+        course_id:
+          type: string
+          title: Course Id
+        title:
+          type: string
+          title: Title
+        target_hours:
+          type: number
+          title: Target Hours
+      type: object
+      required:
+        - course_id
+        - title
+        - target_hours
+      title: GoalCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserLogin:
+      properties:
+        email:
+          type: string
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+        - email
+        - password
+      title: UserLogin
+    UserRegister:
+      properties:
+        email:
+          type: string
+          title: Email
+        password:
+          type: string
+          title: Password
+        full_name:
+          type: string
+          title: Full Name
+      type: object
+      required:
+        - email
+        - password
+        - full_name
+      title: UserRegister
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
