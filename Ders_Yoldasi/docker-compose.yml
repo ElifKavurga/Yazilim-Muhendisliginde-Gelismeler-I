@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 1. FastAPI Backend Servisi
+  dersyoldasi-api:
+    build: 
+      context: ./dersyoldasi-api
+      dockerfile: Dockerfile
+    container_name: dersyoldasi-api-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dersyoldasi-api:/app 
+
+  # 2. React Frontend Servisi (Ağ Yapılandırması Zorlandı)
+  dersyoldasi-ui:
+    build:
+      context: ./dersyoldasi-ui
+      dockerfile: Dockerfile.ui
+    container_name: dersyoldasi-ui-container
+    ports:
+      - "5173:5173"
+    volumes:
+      # Kodları eşitleme
+      - ./dersyoldasi-ui:/app
+      # Node modüllerini host'tan koruma
+      - /app/node_modules 
+      
+    # KESİN ÇÖZÜM: 'npm install' ve ardından 'vite --host 0.0.0.0' komutunu SH ile zorluyoruz.
+    # Bu, Node/Alpine Linux'un IPv6 (::1) önceliğini atlamasını sağlar.
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - dersyoldasi-api
