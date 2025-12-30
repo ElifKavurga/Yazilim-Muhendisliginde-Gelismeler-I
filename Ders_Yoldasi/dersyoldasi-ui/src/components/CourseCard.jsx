@@ -1,103 +1,96 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 
-function CourseCard({ course }) {
-  // Kartın üzerine gelindiğinde (Hover) efekt vermek için state
-  const [isHover, setIsHover] = useState(false);
+function DersKarti({ ders, dersSec }) {
+  const [uzerinde, setUzerinde] = useState(false);
 
-  // --- STİL OBJELERİ ---
-  const styles = {
-    card: {
+  const stiller = {
+    kart: {
       backgroundColor: '#ffffff',
-      borderRadius: '16px', // Daha yumuşak köşeler
+      borderRadius: '16px',
       padding: '24px',
-      // Hover durumunda gölgeyi büyüt ve kartı yukarı kaldır
-      boxShadow: isHover 
-        ? '0 12px 24px rgba(0, 0, 0, 0.12)' 
+      boxShadow: uzerinde
+        ? '0 12px 24px rgba(0, 0, 0, 0.12)'
         : '0 4px 6px rgba(0, 0, 0, 0.04)',
-      transform: isHover ? 'translateY(-5px)' : 'none',
-      transition: 'all 0.3s ease', // Animasyon geçişi
+      transform: uzerinde ? 'translateY(-5px)' : 'none',
+      transition: 'all 0.3s ease',
       border: '1px solid #edf2f7',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      height: '100%', // Grid içinde kartların boyunu eşitler
+      height: '100%',
       cursor: 'pointer',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
     },
-    header: {
+    ust: {
       display: 'flex',
       alignItems: 'center',
       gap: '12px',
       marginBottom: '15px',
     },
-    iconBox: {
+    ikonKutu: {
       width: '40px',
       height: '40px',
-      backgroundColor: '#e3f2fd', // Açık mavi arka plan
+      backgroundColor: '#e3f2fd',
       borderRadius: '8px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: '20px',
     },
-    title: {
+    baslik: {
       margin: 0,
       fontSize: '18px',
       fontWeight: '600',
       color: '#2d3748',
       lineHeight: '1.4',
     },
-    description: {
+    aciklama: {
       color: '#718096',
       fontSize: '14px',
       lineHeight: '1.6',
       marginBottom: '20px',
-      flexGrow: 1, // İçeriği yukarı iter, footer'ı aşağıya sabitler
+      flexGrow: 1,
     },
-    footer: {
+    alt: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       borderTop: '1px solid #f7fafc',
       paddingTop: '15px',
     },
-    badge: {
+    rozet: {
       display: 'inline-block',
       padding: '6px 12px',
-      backgroundColor: '#f0fff4', // Açık yeşil
-      color: '#38a169', // Koyu yeşil yazı
+      backgroundColor: '#f0fff4',
+      color: '#38a169',
       borderRadius: '20px',
       fontSize: '12px',
       fontWeight: '600',
-    }
+    },
   };
 
   return (
-    <div 
-      style={styles.card}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+    <div
+      style={stiller.kart}
+      onMouseEnter={() => setUzerinde(true)}
+      onMouseLeave={() => setUzerinde(false)}
+      onClick={() => dersSec && dersSec(ders)}
     >
-      {/* Üst Kısım: İkon ve Başlık */}
-      <div style={styles.header}>
-        <div style={styles.iconBox}>📚</div>
-        <h4 style={styles.title}>{course.name}</h4>
+      <div style={stiller.ust}>
+        <div style={stiller.ikonKutu}>D</div>
+        <h4 style={stiller.baslik}>{ders.ders_adi}</h4>
       </div>
 
-      {/* Açıklama */}
-      <p style={styles.description}>
-        {course.description || 'Bu ders için henüz bir açıklama girilmemiş.'}
+      <p style={stiller.aciklama}>
+        {ders.aciklama || 'Bu ders icin aciklama yok.'}
       </p>
 
-      {/* Alt Kısım: İstatistikler (Mock Data korundu) */}
-      <div style={styles.footer}>
-        <span style={styles.badge}>
-          ⚡ 0 Hedef
-        </span>
-        <span style={{ fontSize: '12px', color: '#cbd5e0' }}>Detaylar →</span>
+      <div style={stiller.alt}>
+        <span style={stiller.rozet}>0 Hedef</span>
+        <span style={{ fontSize: '12px', color: '#cbd5e0' }}>Detaylar -&gt;</span>
       </div>
     </div>
   );
 }
 
-export default CourseCard;
+export default DersKarti;

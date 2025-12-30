@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-import LoginForm from './components/LoginForm'; // Dosya yollarını projene göre kontrol et
-import Dashboard from './components/Dashboard';
+﻿import React, { useState } from 'react';
+import GirisFormu from './components/LoginForm';
+import KontrolPaneli from './components/Dashboard';
 
-function App() {
-  const [session, setSession] = useState(null);
+function Uygulama() {
+  const [oturum, setOturum] = useState(null);
 
-  const handleLoginSuccess = (data) => {
-    setSession(data);
+  const girisBasarili = (veri) => {
+    setOturum(veri);
   };
 
-  const handleLogout = () => {
-    setSession(null);
+  const cikisYap = () => {
+    localStorage.removeItem('erisim_jetonu');
+    setOturum(null);
   };
 
-  // --- STİL OBJELERİ ---
-  const styles = {
-    // Ana kapsayıcı: Tüm ekranı kaplar ve arka plan rengini ayarlar
-    mainContainer: {
+  const stiller = {
+    anaKapsayici: {
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     },
-    // Sadece Login ekranı için ortalayıcı düzen
-    loginLayout: {
+    girisDuzeni: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -30,8 +28,7 @@ function App() {
       minHeight: '100vh',
       padding: '20px',
     },
-    // Marka Başlığı (Sadece Login ekranında görünür)
-    brandTitle: {
+    markaBaslik: {
       fontSize: '3rem',
       color: '#2c3e50',
       marginBottom: '10px',
@@ -40,38 +37,33 @@ function App() {
       letterSpacing: '-1px',
       textAlign: 'center',
     },
-    brandSubtitle: {
+    markaAltBaslik: {
       fontSize: '1.2rem',
       color: '#6c757d',
       marginTop: '0',
-      marginBottom: '40px', // Form ile başlık arasındaki boşluk
+      marginBottom: '40px',
       textAlign: 'center',
-    }
+    },
   };
 
   return (
-    <div style={styles.mainContainer}>
-      
-      {session ? (
-        /* DURUM 1: Giriş Yapıldı -> Direkt Dashboard'u göster */
-        /* Dashboard kendi padding ve düzenine sahip olduğu için buraya ek stil gerekmez */
-        <Dashboard session={session} onLogout={handleLogout} />
+    <div style={stiller.anaKapsayici}>
+      {oturum ? (
+        <KontrolPaneli oturum={oturum} cikisYap={cikisYap} />
       ) : (
-        /* DURUM 2: Giriş Yapılmadı -> Başlık ve Formu ortala */
-        <div style={styles.loginLayout}>
+        <div style={stiller.girisDuzeni}>
           <div>
-            <h1 style={styles.brandTitle}>🎓 Ders Yoldaşı</h1>
-            <p style={styles.brandSubtitle}>
-              Öğrenme yolculuğunuzu planlayın, takip edin ve başarın.
+            <h1 style={stiller.markaBaslik}>Ders Yoldasi</h1>
+            <p style={stiller.markaAltBaslik}>
+              Planla, takip et ve gelis.
             </p>
           </div>
-          
-          <LoginForm onLoginSuccess={handleLoginSuccess} />
+
+          <GirisFormu onGirisBasarili={girisBasarili} />
         </div>
       )}
-
     </div>
   );
 }
 
-export default App;
+export default Uygulama;

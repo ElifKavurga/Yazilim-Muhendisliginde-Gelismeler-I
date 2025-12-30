@@ -1,33 +1,39 @@
-version: '3.8'
-
 services:
-  # 1. FastAPI Backend Servisi
-  dersyoldasi-api:
-    build: 
-      context: ./dersyoldasi-api
-      dockerfile: Dockerfile
-    container_name: dersyoldasi-api-container
-    ports:
-      - "8000:8000"
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ders_user
+      POSTGRES_PASSWORD: ders_pass
+      POSTGRES_DB: ders_db
     volumes:
-      - ./dersyoldasi-api:/app 
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
-  # 2. React Frontend Servisi (Ağ Yapılandırması Zorlandı)
-  dersyoldasi-ui:
+  api:
+    build: ./dersyoldasi-api
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: ders_user
+      POSTGRES_PASSWORD: ders_pass
+      POSTGRES_DB: ders_db
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      PORT: "5000"
+      JWT_SECRET_KEY: "change-me-in-prod"
+    ports:
+      - "5000:5000"
+
+  ui:
     build:
       context: ./dersyoldasi-ui
       dockerfile: Dockerfile.ui
-    container_name: dersyoldasi-ui-container
+    command: npm run dev
+    depends_on:
+      - api
     ports:
       - "5173:5173"
-    volumes:
-      # Kodları eşitleme
-      - ./dersyoldasi-ui:/app
-      # Node modüllerini host'tan koruma
-      - /app/node_modules 
-      
-    # KESİN ÇÖZÜM: 'npm install' ve ardından 'vite --host 0.0.0.0' komutunu SH ile zorluyoruz.
-    # Bu, Node/Alpine Linux'un IPv6 (::1) önceliğini atlamasını sağlar.
-    command: sh -c "npm install && npm run dev"
-    depends_on:
-      - dersyoldasi-api
+
+volumes:
+  postgres_data:
