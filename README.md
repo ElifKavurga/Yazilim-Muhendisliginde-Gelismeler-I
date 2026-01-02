@@ -1,28 +1,30 @@
 # Ders Yoldasi
 
 Bu repo, "Ders Yoldasi" ogrenci asistani projesinin full-stack (Flask API + Vite React UI) halidir.
+Ek olarak MCP tabanli "Kitap Oneri Servisi" mikroservisi bulunur.
 
 ## Ekranlar
 - Giris/Kayit ekrani: Kullanici adi ve sifre ile giris yapilir veya yeni hesap olusturulur.
 - Dersler ekrani: Kullaniciya ait dersler listelenir, yeni ders eklenebilir.
 - Ders detay ekrani: Secilen dersin konulari (to-do list) gorunur, konu eklenir, tik ile tamamlanir, not ve zorluk seviyesi ayarlanir, ilerleme yuzdesi anlik guncellenir.
+- Kitap onerileri ekrani: Bir konu girilerek OpenLibrary uzerinden ilk 5 kitap listelenir.
 
 ## Odev Gereksinimleri ve Karsilanan Ozellikler
-- Odev 1:
-  - CRUD + Swagger: Ogrenci, Ders, Konu (Konular) icin CRUD endpointleri vardir.
-  - Swagger: /apidocs uzerinden tum endpointler test edilebilir.
-- Odev 2:
-  - Dockerfile ve docker-compose mevcuttur.
-  - Tek komutla uygulama ve PostgreSQL ayaga kalkar.
-- Odev 3:
-  - Full-stack: React UI + Flask API iki servis olarak calisir.
-  - JWT/Bearer: /kimlik/giris ve /kimlik/kayit ile token alinir, /kimlik/korumali endpointi JWT gerektirir.
+- CRUD + Swagger: Ogrenci, Ders, Konu (Konular) icin CRUD endpointleri vardir.
+- Swagger: /apidocs uzerinden tum endpointler test edilebilir.
+- Dockerfile ve docker-compose mevcuttur.
+- Tek komutla uygulama ve PostgreSQL ayaga kalkar.
+- Full-stack: React UI + Flask API iki servis olarak calisir.
+- JWT/Bearer: /kimlik/giris ve /kimlik/kayit ile token alinir, /kimlik/korumali endpointi JWT gerektirir.
+- MCP mikroservis: Kitap Oneri Servisi (FastMCP) eklendi.
+- Entegrasyon: Flask API /api/kitaplar ile MCP servisine baglanir, UI /kitaplar sayfasindan erisilir.
 
 ## Teknolojiler
 - Backend: Flask + SQLAlchemy + Flasgger
 - Veritabani: PostgreSQL
 - Frontend: React (Vite)
 - Kimlik Dogrulama: JWT (flask-jwt-extended)
+- MCP Mikroservis: FastMCP
 
 ## Projeyi Calistirma
 1. Klasore girin:
@@ -35,6 +37,8 @@ Bu repo, "Ders Yoldasi" ogrenci asistani projesinin full-stack (Flask API + Vite
    - http://localhost:5000/apidocs
 5. API saglik kontrolu:
    - http://localhost:5000/saglik
+6. MCP servis (harici erisim):
+   - http://localhost:8080/sse
 
 ## API Ozet
 - Kimlik:
@@ -54,6 +58,8 @@ Bu repo, "Ders Yoldasi" ogrenci asistani projesinin full-stack (Flask API + Vite
   - GET/POST /api/konular
   - GET/PUT/DELETE /api/konular/{id}
   - PATCH /api/konular/{id}/toggle
+- Kitap onerileri:
+  - GET /api/kitaplar?konu=python
 
 ## Veritabani
 PostgreSQL kullanilir. Varsayilan ayarlar docker-compose icinde tanimlidir.

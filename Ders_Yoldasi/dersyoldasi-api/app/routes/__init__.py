@@ -3,6 +3,7 @@ from .ogrenciler import ogrenciler_bp
 from .dersler import dersler_bp
 from .hedefler import hedefler_bp
 from .konular import konular_bp
+from .kitaplar import kitaplar_bp
 
 
 def register_blueprints(app):
@@ -11,6 +12,7 @@ def register_blueprints(app):
     app.register_blueprint(dersler_bp, url_prefix="/api/dersler")
     app.register_blueprint(hedefler_bp, url_prefix="/api/hedefler")
     app.register_blueprint(konular_bp, url_prefix="/api/konular")
+    app.register_blueprint(kitaplar_bp, url_prefix="/api/kitaplar")
 
     @app.get("/saglik")
     def saglik_kontrol():

@@ -1,4 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DersDetay from './DersDetay';
 import DersKarti from './CourseCard';
 
@@ -13,6 +14,7 @@ function KontrolPaneli({ oturum, cikisYap }) {
   const [dersOlusturuluyor, setDersOlusturuluyor] = useState(false);
   const [seciliDers, setSeciliDers] = useState(null);
 
+  const navigate = useNavigate();
   const ogrenciId = oturum?.ogrenci?.id;
 
   useEffect(() => {
@@ -114,6 +116,15 @@ function KontrolPaneli({ oturum, cikisYap }) {
       cursor: 'pointer',
       fontWeight: '600',
     },
+    butonBirincil: {
+      padding: '10px 20px',
+      backgroundColor: '#007bff',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: '600',
+    },
     izgara: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
@@ -188,6 +199,9 @@ function KontrolPaneli({ oturum, cikisYap }) {
         <div style={stiller.butonGrubu}>
           <button onClick={() => setModalAcik(true)} style={stiller.butonBasarili}>
             + Yeni Ders
+          </button>
+          <button onClick={() => navigate('/kitaplar')} style={stiller.butonBirincil}>
+            Kitap Onerileri
           </button>
           <button onClick={cikisYap} style={stiller.butonTehlike}>
             Cikis Yap

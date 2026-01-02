@@ -35,5 +35,10 @@ services:
     ports:
       - "5173:5173"
 
+  kitap-servisi:
+    build: ./mcp-kitap-servisi
+    ports:
+      - "8080:8000"
+
 volumes:
   postgres_data:

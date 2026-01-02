@@ -1,6 +1,8 @@
 ﻿import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import GirisFormu from './components/LoginForm';
 import KontrolPaneli from './components/Dashboard';
+import KitapOnerileri from './components/KitapOnerileri';
 
 function Uygulama() {
   const [oturum, setOturum] = useState(null);
@@ -47,22 +49,28 @@ function Uygulama() {
   };
 
   return (
-    <div style={stiller.anaKapsayici}>
-      {oturum ? (
-        <KontrolPaneli oturum={oturum} cikisYap={cikisYap} />
-      ) : (
-        <div style={stiller.girisDuzeni}>
-          <div>
-            <h1 style={stiller.markaBaslik}>Ders Yoldasi</h1>
-            <p style={stiller.markaAltBaslik}>
-              Planla, takip et ve gelis.
-            </p>
-          </div>
+    <Router>
+      <div style={stiller.anaKapsayici}>
+        {oturum ? (
+          <Routes>
+            <Route path="/" element={<KontrolPaneli oturum={oturum} cikisYap={cikisYap} />} />
+            <Route path="/kitaplar" element={<KitapOnerileri />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        ) : (
+          <div style={stiller.girisDuzeni}>
+            <div>
+              <h1 style={stiller.markaBaslik}>Ders Yoldasi</h1>
+              <p style={stiller.markaAltBaslik}>
+                Planla, takip et ve gelis.
+              </p>
+            </div>
 
-          <GirisFormu onGirisBasarili={girisBasarili} />
-        </div>
-      )}
-    </div>
+            <GirisFormu onGirisBasarili={girisBasarili} />
+          </div>
+        )}
+      </div>
+    </Router>
   );
 }
 
