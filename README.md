@@ -97,34 +97,24 @@ sequenceDiagram
 
 ## 🛡️ Yapay Zeka Güvenlik ve İyileştirme Önerileri
 
-Proje, yapay zeka asistanına inceletilmiş ve puanlama kriteri kapsamında aşağıdaki 5 güvenlik/iyileştirme önerisi alınmıştır:
-
-* **Hassas Verilerin Yönetimi (.env Kullanımı):** `docker-compose.yml` içindeki şifrelerin (`POSTGRES_PASSWORD`, `JWT_SECRET_KEY`) açık metin yerine `.env` dosyasından çekilmesi önerildi.
-* **CORS Sınırlandırması:** `CORS(app)` ile tüm erişimlere izin vermek yerine, sadece frontend (`localhost:5173`) adresine izin verilmesi önerildi.
-* **Docker Healthcheck:** Veritabanı bağlantısı için kod içindeki `time.sleep` döngüsü yerine, Docker'ın kendi `healthcheck` mekanizmasının kullanılması önerildi.
-* **Non-Root User:** Konteyner güvenliği için servislerin root kullanıcısı yerine yetkilendirilmiş standart bir kullanıcı ile çalıştırılması önerildi.
-* **Rate Limiting:** API endpointlerine (özellikle giriş/kayıt) yapılabilecek brute-force saldırılarını engellemek için hız sınırı (rate limiting) eklenmesi önerildi.
+- `.env` kullanarak şifrelerin gizlenmesi  
+- CORS sadece frontend adresine açılmalı  
+- Docker için healthcheck mekanizması eklenmeli  
+- Container’lar root user ile çalıştırılmamalı  
+- Giriş endpointlerine rate limiting eklenmeli  
 
 ---
 
 ## 📸 Ekran Görüntüleri
 
-Uygulamanın arayüzünden bazı kareler:
+### 🔐 Giriş & Kayıt
+![Giriş](resimler/giris.png)  
+![Kayıt](resimler/kayit.png)
 
-### 1. Kimlik Doğrulama (Giriş ve Kayıt)
-Kullanıcıların güvenli bir şekilde hesap oluşturduğu ve giriş yaptığı ekranlar.
-
-![Giriş Ekranı](resimler/giris.png)
-![Kayıt Ekranı](resimler/kayit.png)
-
-### 2. Ana Panel ve Ders Yönetimi
-Derslerin listelendiği ana ekran, yeni ders ekleme ve ders detaylarının (To-Do ve ilerleme durumu) yönetildiği paneller.
-
-![Ana Ekran](resimler/ana_ekran.png)
-![Ders Ekleme](resimler/ders_ekleme.png)
+### 📚 Ders Yönetimi
+![Ana Ekran](resimler/ana_ekran.png)  
+![Ders Ekle](resimler/ders_ekleme.png)  
 ![Ders Detay](resimler/ders_detay.png)
 
-### 3. Kitap Öneri Sistemi
-Yapay zeka destekli servis üzerinden, çalışılan konulara uygun kitapların arandığı ve listelendiği ekran.
-
-![Kitap Arama](resimler/kitap_ara.png)
+### 📖 Kitap Önerileri
+![Kitap Ara](resimler/kitap_ara.png)
