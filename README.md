@@ -94,6 +94,8 @@ sequenceDiagram
     API->>BookService: İstek Gönder (Entegrasyon)
     BookService-->>API: Kitap Listesi JSON
     API-->>User: Kitap Önerileri
+```
+   
 
 ## 🛡️ Yapay Zeka Güvenlik ve İyileştirme Önerileri
 
