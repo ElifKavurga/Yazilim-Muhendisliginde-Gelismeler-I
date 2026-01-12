@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ders_user
+      POSTGRES_PASSWORD: ders_pass
+      POSTGRES_DB: ders_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./dersyoldasi-api
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: ders_user
+      POSTGRES_PASSWORD: ders_pass
+      POSTGRES_DB: ders_db
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      PORT: "5000"
+      JWT_SECRET_KEY: "change-me-in-prod"
+    ports:
+      - "5000:5000"
+
+  ui:
+    build:
+      context: ./dersyoldasi-ui
+      dockerfile: Dockerfile.ui
+    command: npm run dev
+    depends_on:
+      - api
+    ports:
+      - "5173:5173"
+
+  kitap-servisi:
+    build: ./mcp-kitap-servisi
+    ports:
+      - "8080:8000"
+
+volumes:
+  postgres_data:
