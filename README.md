@@ -109,13 +109,19 @@ sequenceDiagram
 
 ## 📸 Ekran Görüntüleri
 
-### 🔐 Giriş & Kayıt
+### 🔐 Giriş Ekranı
 ![Giriş](resimler/giris.png)  
+
+### 🔐 Kayıt Ekranı
 ![Kayıt](resimler/kayit.png)
 
-### 📚 Ders Yönetimi
+### 📚 Ana Ekran
 ![Ana Ekran](resimler/ana_ekran.png)  
+
+### 📚 Ders Ekleme
 ![Ders Ekle](resimler/ders_ekleme.png)  
+
+### 📚 Ders Detay
 ![Ders Detay](resimler/ders_detay.png)
 
 ### 📖 Kitap Önerileri
